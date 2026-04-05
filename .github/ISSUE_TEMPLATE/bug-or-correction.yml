@@ -1,0 +1,46 @@
+name: 오류 수정 / 개선 제안
+description: 기존 글의 오류를 수정하거나 개선을 제안합니다
+labels: ["correction"]
+body:
+  - type: input
+    id: article_link
+    attributes:
+      label: 글의 링크 또는 경로
+      placeholder: "예: docs/series/korea-systems/politics/system/constitution.md"
+    validations:
+      required: true
+  - type: dropdown
+    id: error_type
+    attributes:
+      label: 오류 유형
+      options:
+        - factual error (사실 오류)
+        - source error (출처 오류)
+        - metaphor issue (은유 문제)
+        - typo (오타)
+        - other (기타)
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 오류 또는 개선 사항 설명
+      placeholder: "오류의 위치, 내용, 왜 문제인지 설명해주세요"
+    validations:
+      required: true
+  - type: textarea
+    id: suggested_fix
+    attributes:
+      label: 제안하는 수정 사항
+      placeholder: "어떻게 수정되어야 하는지 제안해주세요"
+    validations:
+      required: false
+  - type: textarea
+    id: sources
+    attributes:
+      label: 참고 자료
+      placeholder: |
+        - 출처 1 URL
+        - 출처 2 설명
+    validations:
+      required: false

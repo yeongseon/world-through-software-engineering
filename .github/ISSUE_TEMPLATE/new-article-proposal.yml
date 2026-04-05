@@ -1,0 +1,79 @@
+name: 새 글 제안
+description: 새로운 시스템 분석 또는 케이스 분석 글을 제안합니다
+labels: ["proposal"]
+body:
+  - type: dropdown
+    id: article_type
+    attributes:
+      label: 글의 유형
+      options:
+        - system (시스템 분석)
+        - case (케이스 분석)
+    validations:
+      required: true
+  - type: dropdown
+    id: series
+    attributes:
+      label: 시리즈
+      options:
+        - korea-systems (대한민국 시스템)
+        - corporate-functions (회사 직군)
+    validations:
+      required: true
+  - type: dropdown
+    id: domain
+    attributes:
+      label: 도메인
+      options:
+        - 정치 (Politics)
+        - 법률 (Law)
+        - 경제 (Economy)
+        - 사회 (Society)
+        - PM (Product Management)
+        - 법무 (Legal)
+        - 재무 (Finance)
+        - HR (Human Resources)
+        - 세일즈 (Sales)
+        - 마케팅 (Marketing)
+        - 운영 (Operations)
+        - 디자인 (Design)
+    validations:
+      required: true
+  - type: input
+    id: title_ko
+    attributes:
+      label: 글의 제목 (한국어)
+      placeholder: "예: 헌법을 읽는 엔지니어 - 대한민국의 Root Architecture"
+    validations:
+      required: true
+  - type: input
+    id: title_en
+    attributes:
+      label: 글의 제목 (English)
+      placeholder: "e.g., Reading Constitution Through Engineering - Korea's Root Architecture"
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: 글의 요약
+      placeholder: "100-200자로 글의 주요 내용을 설명해주세요"
+    validations:
+      required: true
+  - type: textarea
+    id: key_metaphor
+    attributes:
+      label: 핵심 은유
+      placeholder: "예: 헌법 = Root Architecture, 국회 = Legislative Pipeline"
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: 참고 자료 (최소 1개)
+      placeholder: |
+        - 출처 1 URL
+        - 출처 2 제목
+        - 출처 3 설명
+    validations:
+      required: true
