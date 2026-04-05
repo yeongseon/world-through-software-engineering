@@ -10,7 +10,6 @@ last_reviewed: 2026-04-05
 related: []
 sources:
   - "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=61603"
-  - "https://ko.wikisource.org/wiki/대한민국_헌법"
 notable_cases: []
 ---
 
@@ -285,8 +284,7 @@ flowchart LR
 
 ### 1순위 — 법률 원문
 
-- 대한민국 헌법 전문. 국가법령정보센터. https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=61603
-- 대한민국 헌법. 위키문헌 (퍼블릭 도메인). https://ko.wikisource.org/wiki/대한민국_헌법
+- 대한민국 헌법 전문. 국가법령정보센터(법제처 공식). https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=61603
 
 ### 2순위 — 공식 문서
 
