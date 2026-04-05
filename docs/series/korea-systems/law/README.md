@@ -17,6 +17,7 @@
 ## 계획된 글
 
 ### 시스템 분석
+- [draft] [헌법 — 루트 아키텍처](system/constitution-as-root-architecture.md) — Root Architecture 관점에서 헌법의 구조 분석
 - [계획중] 법체계의 아키텍처 — Layered Design Pattern 분석
 - [계획중] 위임입법 이해하기 — Dependency Injection으로 보는 권한 위임
 - [계획중] 위헌심사 프로세스 — Validation과 Exception Handling

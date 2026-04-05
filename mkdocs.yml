@@ -74,9 +74,9 @@ nav:
       - 용어 사전: series/korea-systems/glossary.md
       - 정치:
           - 소개: series/korea-systems/politics/README.md
-          - 헌법: series/korea-systems/politics/system/constitution-as-root-architecture.md
       - 법률:
           - 소개: series/korea-systems/law/README.md
+          - 헌법: series/korea-systems/law/system/constitution-as-root-architecture.md
       - 경제:
           - 소개: series/korea-systems/economy/README.md
       - 사회:

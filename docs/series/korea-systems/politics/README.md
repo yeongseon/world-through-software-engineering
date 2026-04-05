@@ -1,6 +1,6 @@
 # 정치 — Politics
 
-대한민국의 정치 체계를 소프트웨어 엔지니어링의 언어로 분석합니다. 헌법, 선거, 입법 프로세스, 행정 실행을 아키텍처와 시스템 설계의 관점에서 이해합니다.
+대한민국의 정치 체계를 소프트웨어 엔지니어링의 언어로 분석합니다. 선거, 입법 프로세스, 행정 실행을 아키텍처와 시스템 설계의 관점에서 이해합니다.
 
 ## 도메인 개요
 
@@ -8,7 +8,6 @@
 
 ## 주요 은유
 
-- **헌법**: Root Architecture — 모든 정치 시스템의 기반
 - **국회**: Legislative Pipeline — 법안이 처리되는 흐름과 상태 관리
 - **선거**: Leadership Rotation — 주기적인 리더십 교체 메커니즘
 - **행정부**: Execution Runtime — 정책 실행과 리소스 관리
@@ -17,7 +16,6 @@
 ## 계획된 글
 
 ### 시스템 분석
-- [draft] [헌법 — 루트 아키텍처](system/constitution-as-root-architecture.md) — Root Architecture 관점에서 헌법의 구조 분석
 - [계획중] 국회 입법 프로세스 — Legislative Pipeline 상세 분석
 - [계획중] 대통령제 시스템 — Leadership Rotation과 권력 분산
 
