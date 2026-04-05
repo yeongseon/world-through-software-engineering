@@ -17,7 +17,7 @@
 ## 계획된 글
 
 ### 시스템 분석
-- [계획중] 디자인 시스템 — Component Library 구축
+- [draft] [디자인 시스템 — Component Library 구축](system/design-system-as-component-library.md)
 - [계획중] 사용자 리서치 — User Testing Methodology
 - [계획중] 설계 프로세스 — From Wireframe to Production
 

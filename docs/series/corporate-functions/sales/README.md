@@ -17,7 +17,7 @@
 ## 계획된 글
 
 ### 시스템 분석
-- [계획중] 영업 파이프라인 관리 — State Machine으로 보는 고객 여정
+- [draft] [영업 파이프라인 관리 — State Machine으로 보는 고객 여정](system/sales-pipeline-as-state-machine.md)
 - [계획중] 리드 스코어링 — 우선순위 결정의 알고리즘
 - [계획중] 전환율 최적화 — Conversion Rate 개선의 기술
 

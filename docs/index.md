@@ -67,14 +67,14 @@
 | 유형 | 글 | 핵심 메타포 | 상태 |
 |------|-----|-------------|------|
 | system | 로드맵 | Release Plan | 예정 |
-| system | 스프린트/이터레이션 | Iteration Cycle | 예정 |
+| system | [스프린트/이터레이션](series/corporate-functions/pm/system/sprint-as-iteration-cycle.md) | Iteration Cycle | draft |
 | system | 요구사항 관리 | Spec Management | 예정 |
 
 ### 법무 (Legal)
 
 | 유형 | 글 | 핵심 메타포 | 상태 |
 |------|-----|-------------|------|
-| system | 계약 | Interface Contract | 예정 |
+| system | [계약](series/corporate-functions/legal/system/contract-as-interface.md) | Interface Contract | draft |
 | system | 컴플라이언스 | Rule Set / Compliance Check | 예정 |
 | system | 분쟁 해결 | Conflict Resolution | 예정 |
 
@@ -84,13 +84,13 @@
 |------|-----|-------------|------|
 | system | 예산 편성 | Resource Allocation | 예정 |
 | system | 비용 관리 | Runtime Cost | 예정 |
-| system | 회계 마감 | Batch Closing Cycle | 예정 |
+| system | [회계 마감](series/corporate-functions/finance/system/accounting-as-layered-architecture.md) | Layered Architecture | draft |
 
 ### HR (Human Resources)
 
 | 유형 | 글 | 핵심 메타포 | 상태 |
 |------|-----|-------------|------|
-| system | 채용 | Candidate Pipeline | 예정 |
+| system | [채용](series/corporate-functions/hr/system/hiring-as-pipeline.md) | Candidate Pipeline | draft |
 | system | 평가 | Review Protocol | 예정 |
 | system | 보상 | Incentive Model | 예정 |
 | system | 조직 설계 | Scaling Architecture | 예정 |
@@ -100,7 +100,7 @@
 | 유형 | 글 | 핵심 메타포 | 상태 |
 |------|-----|-------------|------|
 | system | 리드 관리 | Input Stream | 예정 |
-| system | 파이프라인 | State Machine | 예정 |
+| system | [파이프라인](series/corporate-functions/sales/system/sales-pipeline-as-state-machine.md) | State Machine | draft |
 | system | 전환/클로징 | Conversion Event | 예정 |
 
 ### 마케팅 (Marketing)
@@ -109,13 +109,13 @@
 |------|-----|-------------|------|
 | system | 브랜드 | Stable Abstraction Layer | 예정 |
 | system | 캠페인 | Traffic Generation Workflow | 예정 |
-| system | 퍼널 | Conversion Pipeline | 예정 |
+| system | [퍼널/세분화](series/corporate-functions/marketing/system/segmentation-as-partitioning.md) | Partitioning | draft |
 
 ### 운영 (Operations)
 
 | 유형 | 글 | 핵심 메타포 | 상태 |
 |------|-----|-------------|------|
-| system | SOP | Runbook | 예정 |
+| system | [SOP](series/corporate-functions/operations/system/sop-as-runbook.md) | Runbook | draft |
 | system | 물류 | Logistics Pipeline | 예정 |
 | system | 재고 관리 | Inventory Buffer | 예정 |
 
@@ -123,7 +123,7 @@
 
 | 유형 | 글 | 핵심 메타포 | 상태 |
 |------|-----|-------------|------|
-| system | 디자인 시스템 | Component Library | 예정 |
+| system | [디자인 시스템](series/corporate-functions/design/system/design-system-as-component-library.md) | Component Library | draft |
 | system | 사용자 리서치 | User Testing | 예정 |
 | system | 와이어프레임 | Blueprint | 예정 |
 

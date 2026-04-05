@@ -17,7 +17,7 @@
 ## 계획된 글
 
 ### 시스템 분석
-- [계획중] SOP 작성과 표준화 — Runbook 관리
+- [draft] [SOP 작성과 표준화 — Runbook 관리](system/sop-as-runbook.md)
 - [계획중] 물류 네트워크 — Pipeline Optimization
 - [계획중] 재고 관리 — Buffer Sizing과 Cost
 

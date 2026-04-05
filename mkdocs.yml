@@ -84,12 +84,28 @@ nav:
   - 회사 직군:
       - 소개: series/corporate-functions/README.md
       - 용어 사전: series/corporate-functions/glossary.md
-      - PM: series/corporate-functions/pm/README.md
-      - 법무: series/corporate-functions/legal/README.md
-      - 재무: series/corporate-functions/finance/README.md
-      - HR: series/corporate-functions/hr/README.md
-      - 세일즈: series/corporate-functions/sales/README.md
-      - 마케팅: series/corporate-functions/marketing/README.md
-      - 운영: series/corporate-functions/operations/README.md
-      - 디자인: series/corporate-functions/design/README.md
+      - PM:
+          - 소개: series/corporate-functions/pm/README.md
+          - 스프린트 주기를 이터레이션 사이클로: series/corporate-functions/pm/system/sprint-as-iteration-cycle.md
+      - 법무:
+          - 소개: series/corporate-functions/legal/README.md
+          - 계약을 인터페이스로: series/corporate-functions/legal/system/contract-as-interface.md
+      - 재무:
+          - 소개: series/corporate-functions/finance/README.md
+          - 회계를 레이어드 아키텍처로: series/corporate-functions/finance/system/accounting-as-layered-architecture.md
+      - HR:
+          - 소개: series/corporate-functions/hr/README.md
+          - 채용을 파이프라인으로: series/corporate-functions/hr/system/hiring-as-pipeline.md
+      - 세일즈:
+          - 소개: series/corporate-functions/sales/README.md
+          - 영업 파이프라인을 상태 머신으로: series/corporate-functions/sales/system/sales-pipeline-as-state-machine.md
+      - 마케팅:
+          - 소개: series/corporate-functions/marketing/README.md
+          - 고객 세분화를 파티셔닝으로: series/corporate-functions/marketing/system/segmentation-as-partitioning.md
+      - 운영:
+          - 소개: series/corporate-functions/operations/README.md
+          - SOP를 런북으로: series/corporate-functions/operations/system/sop-as-runbook.md
+      - 디자인:
+          - 소개: series/corporate-functions/design/README.md
+          - 디자인 시스템을 컴포넌트 라이브러리로: series/corporate-functions/design/system/design-system-as-component-library.md
   - 시리즈 횡단 주제: topics/README.md

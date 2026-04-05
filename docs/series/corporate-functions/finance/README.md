@@ -18,7 +18,7 @@
 
 ### 시스템 분석
 - [계획중] 예산 편성 프로세스 — Resource Allocation 최적화
-- [계획중] 회계 체계 — Layered Accounting Architecture
+- [draft] [회계 체계 — Layered Accounting Architecture](system/accounting-as-layered-architecture.md)
 - [계획중] 성과 분석 — Profiling으로 보는 회사의 효율성
 
 ### 케이스 분석

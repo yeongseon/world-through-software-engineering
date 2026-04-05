@@ -19,7 +19,7 @@
 ### 시스템 분석
 - [계획중] 브랜드 구축 — Stable Abstraction Layer로서의 브랜드
 - [계획중] 마케팅 퍼널 — Conversion Pipeline 최적화
-- [계획중] 고객 세분화 — Segmentation과 Targeting
+- [draft] [고객 세분화 — Segmentation과 Partitioning](system/segmentation-as-partitioning.md)
 
 ### 케이스 분석
 - [계획중] 성공한 브랜드 전략 사례

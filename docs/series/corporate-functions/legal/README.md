@@ -17,7 +17,7 @@
 ## 계획된 글
 
 ### 시스템 분석
-- [계획중] 계약의 구조 — Interface Contract로 보는 계약 설계
+- [draft] [계약의 구조 — Interface Contract로 보는 계약 설계](system/contract-as-interface.md)
 - [계획중] 컴플라이언스의 기술 — Rule Engine으로서의 정책
 - [계획중] 분쟁 해결 프로세스
 
