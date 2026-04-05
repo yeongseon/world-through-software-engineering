@@ -1,0 +1,3205 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="대한민국 시스템과 회사 직군을 소프트웨어 엔지니어링 관점에서 분석하는 프로젝트">
+      
+      
+      
+        <link rel="canonical" href="https://yeongseon.github.io/world-through-software-engineering/series/corporate-functions/design/system/design-system-as-component-library/">
+      
+      
+        <link rel="prev" href="../../">
+      
+      
+        <link rel="next" href="../../../../../topics/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>디자인 시스템을 컴포넌트 라이브러리로 - 소프트웨어 엔지니어 관점에서 보는 세상</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href="../../../../.." title="소프트웨어 엔지니어 관점에서 보는 세상" class="md-header__button md-logo" aria-label="소프트웨어 엔지니어 관점에서 보는 세상" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            소프트웨어 엔지니어 관점에서 보는 세상
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              디자인 시스템을 컴포넌트 라이브러리로
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="다크 모드로 전환"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="다크 모드로 전환" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="라이트 모드로 전환"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="라이트 모드로 전환" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/yeongseon/world-through-software-engineering" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    yeongseon/world-through-software-engineering
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="소프트웨어 엔지니어 관점에서 보는 세상" class="md-nav__button md-logo" aria-label="소프트웨어 엔지니어 관점에서 보는 세상" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    소프트웨어 엔지니어 관점에서 보는 세상
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/yeongseon/world-through-software-engineering" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    yeongseon/world-through-software-engineering
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    홈
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../manifesto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    선언문
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../methodology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    방법론
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../glossary/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    공유 용어 사전
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    대한민국 시스템
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    대한민국 시스템
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    용어 사전
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    정치
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    정치
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/politics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    법률
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    법률
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/law/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/law/system/constitution-as-root-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    헌법
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    경제
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    경제
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/economy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사회
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    사회
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/society/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    회사 직군
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    회사 직군
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    용어 사전
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PM
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PM
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pm/system/sprint-as-iteration-cycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스프린트 주기를 이터레이션 사이클로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    법무
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    법무
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../legal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../legal/system/contract-as-interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    계약을 인터페이스로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    재무
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    재무
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../finance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../finance/system/accounting-as-layered-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    회계를 레이어드 아키텍처로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HR
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HR
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hr/system/hiring-as-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    채용을 파이프라인으로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    세일즈
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    세일즈
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../sales/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../sales/system/sales-pipeline-as-state-machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    영업 파이프라인을 상태 머신으로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    마케팅
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    마케팅
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../marketing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../marketing/system/segmentation-as-partitioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    고객 세분화를 파티셔닝으로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_9" id="__nav_6_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    운영
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    운영
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/system/sop-as-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SOP를 런북으로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_10" id="__nav_6_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    디자인
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    디자인
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    디자인 시스템을 컴포넌트 라이브러리로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    디자인 시스템을 컴포넌트 라이브러리로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#disclaimer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        면책 조항 (Disclaimer)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#terminology-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        핵심 개념 매핑 (Terminology Map)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        시스템 브리프 — 왜 디자인 시스템이 필요한가
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-api-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §1. 컴포넌트의 설계와 계약 — API Contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configuration-as-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §2. 디자인 토큰 — Configuration as Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-breaking-change-semantic-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §3. 버전 관리와 Breaking Change — Semantic Versioning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-compliance-as-test-suite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §4. 접근성 — Compliance as Test Suite
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §5. 거버넌스 — 누가 컴포넌트를 관리하는가
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#organizational-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조직 내 위치 (Organizational Context)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maturity-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        성숙도 단계 (Maturity Model)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        변경 이력 — 세 번의 전환점
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="변경 이력 — 세 번의 전환점">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 프리디지털 시기 — 브랜드 매뉴얼 중심
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-saas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) SaaS/데이터 시기 — 도구 기반 협업 확장
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ai-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) AI/현재 시기 — 토큰 자동화와 생성형 UI 실험
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        운영 모델 비교
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limits-of-the-analogy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        이 비유의 한계 (Limits of the Analogy)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        출처 (Sources)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="출처 (Sources)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1순위 — 표준 및 규격
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2순위 — 공개 디자인 시스템 공식 문서
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        참고 — 방법론 및 표준화 논의
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        각주
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        관련 글 (See Also)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../topics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시리즈 횡단 주제
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#disclaimer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        면책 조항 (Disclaimer)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#terminology-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        핵심 개념 매핑 (Terminology Map)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        시스템 브리프 — 왜 디자인 시스템이 필요한가
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-api-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §1. 컴포넌트의 설계와 계약 — API Contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configuration-as-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §2. 디자인 토큰 — Configuration as Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-breaking-change-semantic-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §3. 버전 관리와 Breaking Change — Semantic Versioning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-compliance-as-test-suite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §4. 접근성 — Compliance as Test Suite
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §5. 거버넌스 — 누가 컴포넌트를 관리하는가
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#organizational-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조직 내 위치 (Organizational Context)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maturity-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        성숙도 단계 (Maturity Model)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        변경 이력 — 세 번의 전환점
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="변경 이력 — 세 번의 전환점">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 프리디지털 시기 — 브랜드 매뉴얼 중심
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-saas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) SaaS/데이터 시기 — 도구 기반 협업 확장
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ai-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) AI/현재 시기 — 토큰 자동화와 생성형 UI 실험
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        운영 모델 비교
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limits-of-the-analogy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        이 비유의 한계 (Limits of the Analogy)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        출처 (Sources)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="출처 (Sources)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1순위 — 표준 및 규격
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2순위 — 공개 디자인 시스템 공식 문서
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        참고 — 방법론 및 표준화 논의
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        각주
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        관련 글 (See Also)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">디자인 시스템 — 재사용 가능한 인터페이스의 설계 문서<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>한 줄 요약</strong>: 디자인 시스템은 "화면을 빨리 만드는 도구"가 아니라, 여러 팀이 동시에 UI를 만들어도 일관성과 접근성을 유지하게 하는 컴포넌트 라이브러리 운영 체계다.</p>
+</blockquote>
+<h2 id="disclaimer">면책 조항 (Disclaimer)<a class="headerlink" href="#disclaimer" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>이 글은 디자인 시스템을 소프트웨어 엔지니어링 관점으로 해석한 시스템 분석 문서입니다.
+비유는 이해를 돕기 위한 도구이며, 현실을 완전히 대체하지 않습니다.
+실제 도입·운영 의사결정에는 각 조직의 제품 맥락, 규제 맥락, 사용자 맥락을 함께 검토해야 합니다.</p>
+</blockquote>
+<hr />
+<h2 id="terminology-map">핵심 개념 매핑 (Terminology Map)<a class="headerlink" href="#terminology-map" title="Permanent link">&para;</a></h2>
+<p>이 글은 디자인 시스템을 "컴포넌트 라이브러리"로 읽습니다.
+아래 6개 개념을 먼저 잡고 들어가면 전체 구조가 보입니다.
+| 개념 | 이 시스템에서의 의미 |
+|---|---|
+| <strong>컴포넌트 계약</strong> | 버튼, 입력창, 모달 같은 UI 단위가 어떤 속성(props), 상태(state), 접근성 속성을 가져야 하는지 정의한 인터페이스 규약 |
+| <strong>디자인 토큰</strong> | 색상, 간격, 타이포그래피, 모서리 반경 같은 값을 이름 기반으로 중앙 관리하는 설정 계층 |
+| <strong>버전 정책</strong> | 컴포넌트 변경이 소비자 제품에 미치는 영향을 <code>major/minor/patch</code>로 구분하고 이행 계획을 강제하는 규칙 |
+| <strong>접근성 기준</strong> | WCAG를 기준으로 컴포넌트 단위에서 검사 가능한 준수 항목을 테스트 스위트처럼 운영하는 체계<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup> |
+| <strong>거버넌스 모델</strong> | 누가 컴포넌트를 소유하고, 누가 변경을 승인하며, 누가 예외를 허용하는지 정의하는 운영 규칙 |
+| <strong>소비자 계약</strong> | 제품 팀이 시스템 컴포넌트를 사용할 때 지켜야 하는 사용 규칙과 마이그레이션 의무 |</p>
+<hr />
+<h2 id="_2">시스템 브리프 — 왜 디자인 시스템이 필요한가<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: "UI를 만들어야 하는데, 팀이 커지면 일관성이 깨진다. 어떻게 확장 가능한 인터페이스 시스템을 만들 것인가?"
+초기 스타트업에서는 한두 명의 디자이너와 프론트엔드 엔지니어가 화면을 빠르게 만든다.
+이 단계에서는 버튼이 조금씩 달라도 제품이 돌아간다.
+문제는 팀이 늘고 제품 수가 늘어나는 시점이다.
+같은 "Primary Button"인데 서비스마다 색이 다르고,
+폼 에러 메시지 위치가 제각각이며,
+키보드 포커스 이동 규칙도 화면마다 달라진다.
+이 상태가 누적되면 릴리스 속도보다 유지보수 비용이 더 빠르게 증가한다.
+디자인 시스템은 이 문제를
+"개별 화면 제작"
+관점이 아니라
+"재사용 가능한 인터페이스 부품 생산"
+관점으로 전환한다.
+즉,
+화면을 직접 반복 구현하는 대신,
+공통 컴포넌트와 토큰을 중앙에서 관리하고,
+제품 팀은 이를 조합해 페이지를 만든다.
+이 구조는 소프트웨어에서
+공유 라이브러리,
+설정 관리,
+버전 관리,
+테스트 자동화,
+오픈소스 거버넌스를
+동시에 적용한 운영 모델과 유사하다.
+핵심은 하나다.
+핫테이크보다 구조.
+디자인 취향보다 계약.</p>
+</blockquote>
+<hr />
+<h2 id="1-api-contract">§1. 컴포넌트의 설계와 계약 — API Contract<a class="headerlink" href="#1-api-contract" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 재사용 가능한 컴포넌트를 만들고 싶다. 그런데 팀마다 구현 방식이 다르면 재사용이 아니라 포크가 된다. 무엇을 "고정 계약"으로 정의해야 하는가?
+컴포넌트 라이브러리의 첫 번째 원칙은
+"모양"
+보다
+"계약"
+이다.
+예를 들어 버튼 컴포넌트를 정의할 때,
+색상과 그림자보다 먼저 확정해야 할 것은
+다음과 같은 인터페이스다.
+- 어떤 variant를 지원하는가 (<code>primary</code>, <code>secondary</code>, <code>danger</code>)
+- 어떤 상태를 지원하는가 (<code>default</code>, <code>hover</code>, <code>focus</code>, <code>disabled</code>, <code>loading</code>)
+- 키보드 사용 시 어떤 상호작용을 보장하는가
+- 스크린 리더 이름은 어디서 오는가 (<code>aria-label</code>, visible label)
+- 비동기 처리 중 중복 클릭을 어떻게 방지하는가
+이 항목이 문서화되지 않으면,
+각 제품 팀은 "비슷한 버튼"을 다시 만든다.
+그 결과는 재사용이 아니라 API 분열이다.
+Atomic Design은 UI를
+Atom,
+Molecule,
+Organism,
+Template,
+Page
+계층으로 분해해 재사용 범위를 명확히 하자는 접근이다.<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>
+중요한 점은,
+Atomic Design이 시각 스타일 철학이 아니라
+분해 단위와 조합 단위를 정하는 아키텍처 프레임이라는 것이다.
+<pre class="mermaid"><code>graph TD
+    A[Atom&lt;br/&gt;Button / Input / Label]
+    B[Molecule&lt;br/&gt;Search Field / Form Row]
+    C[Organism&lt;br/&gt;Header / Product Card Grid]
+    D[Template&lt;br/&gt;List Template / Detail Template]
+    E[Page&lt;br/&gt;Orders Page / Settings Page]
+    A --&gt; B
+    B --&gt; C
+    C --&gt; D
+    D --&gt; E
+    style A fill:#1a1a2e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style B fill:#16213e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style C fill:#0f3460,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style D fill:#1f4068,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style E fill:#2a2a3e,stroke:#e94560,stroke-width:2px,color:#ffffff</code></pre>
+엔지니어 관점에서 보면,
+Atom은 표준 라이브러리 함수에 가깝고,
+Organism은 도메인 조합 컴포넌트,
+Template은 라우트 수준 스캐폴딩이다.
+이때 반드시 분리해야 하는 것이 있다.
+컴포넌트의
+"시맨틱 계약"
+과
+"브랜드 스킨"
+을 구분해야 한다.
+예를 들어,
+<code>Button</code>의 클릭 가능 영역,
+포커스 표시,
+비활성 상태 전달은 계약이다.
+하지만 그림자 강도나 라운드 값은 토큰으로 분리 가능한 스킨이다.
+계약과 스킨을 섞어 버리면
+브랜드 리뉴얼 때 컴포넌트 API까지 깨진다.
+반대로 둘을 분리하면
+토큰 교체만으로 다수 화면을 안전하게 업데이트할 수 있다.
+Material Design,
+Carbon,
+Lightning,
+USWDS 같은 공개 시스템이 공통으로 강조하는 것도
+컴포넌트의 사용 원칙,
+상태,
+접근성,
+코드 구현의 동기화다.<sup id="fnref2:4"><a class="footnote-ref" href="#fn:4">4</a></sup><sup id="fnref2:5"><a class="footnote-ref" href="#fn:5">5</a></sup><sup id="fnref2:6"><a class="footnote-ref" href="#fn:6">6</a></sup><sup id="fnref2:7"><a class="footnote-ref" href="#fn:7">7</a></sup>
+요약하면,
+컴포넌트 라이브러리의 본질은
+UI 조각 모음이 아니라
+계약 기반 인터페이스 레이어다.</p>
+</blockquote>
+<hr />
+<h2 id="2-configuration-as-code">§2. 디자인 토큰 — Configuration as Code<a class="headerlink" href="#2-configuration-as-code" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 색상·간격·타이포그래피를 팀마다 직접 하드코딩하면 일관성이 깨진다. 공통 값을 어떻게 중앙 설정으로 관리할 것인가?
+디자인 토큰은
+"디자인 값"
+을
+"이름 있는 설정"
+으로 다루는 방식이다.
+예를 들어
+<code>#005ea2</code>
+라는 색 값을 페이지마다 직접 쓰는 대신,
+<code>color.brand.primary</code>
+같은 토큰 이름을 사용한다.
+그다음 플랫폼별로
+웹 CSS 변수,
+iOS semantic color,
+Android resource,
+디자인 툴 변수
+로 변환한다.
+이 구조는 환경변수 관리와 유사하다.
+애플리케이션 코드가 실제 비밀값을 직접 들고 있지 않고,
+키 이름을 통해 주입받는 것과 같다.
+토큰 계층은 보통 다음처럼 나눈다.
+- <strong>Primitive token</strong>: 원시값 (<code>blue-60</code>, <code>space-2</code>)
+- <strong>Semantic token</strong>: 의미값 (<code>text-primary</code>, <code>surface-danger</code>)
+- <strong>Component token</strong>: 컴포넌트 전용값 (<code>button-primary-bg</code>, <code>input-border-focus</code>)
+중요한 운영 원칙은
+"페이지는 primitive를 직접 참조하지 않는다"
+이다.
+페이지가 primitive를 직접 참조하기 시작하면
+중앙 제어가 무너지고,
+브랜드 변경 비용이 급증한다.
+W3C Design Tokens Community Group 문서는
+토큰을 교환 가능한 포맷으로 정의하려는 이유를
+도구 종속성 감소,
+플랫폼 간 일관성,
+자동화 가능성으로 설명한다.<sup id="fnref2:8"><a class="footnote-ref" href="#fn:8">8</a></sup>
+USWDS 역시
+색상·간격·타이포그래피를 토큰으로 제공하고,
+컴포넌트는 이 토큰을 조합해 구성하도록 안내한다.<sup id="fnref3:7"><a class="footnote-ref" href="#fn:7">7</a></sup>
+<pre class="mermaid"><code>flowchart LR
+    T1[Design Token Source&lt;br/&gt;color.brand.primary]
+    T2[Semantic Token Layer&lt;br/&gt;action.primary.bg]
+    C1[Component Styles&lt;br/&gt;Button / Input / Alert]
+    P1[Page Composition&lt;br/&gt;Checkout / Dashboard]
+    T1 --&gt; T2
+    T2 --&gt; C1
+    C1 --&gt; P1
+    style T1 fill:#1a1a2e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style T2 fill:#16213e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style C1 fill:#0f3460,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style P1 fill:#2a2a3e,stroke:#e94560,stroke-width:2px,color:#ffffff</code></pre>
+토큰 운영이 실패하는 전형적 패턴도 있다.
+첫째,
+토큰 이름이 의미가 아니라 값 기반일 때다.
+<code>blue-500</code>를 비즈니스 맥락에 직접 쓰면,
+팔레트 변경 시 이름 자체가 기술 부채가 된다.
+둘째,
+컴포넌트가 토큰을 우회해 로컬 값을 직접 선언할 때다.
+이 경우 "공통 시스템"이 아니라 "권고사항"으로 격하된다.
+셋째,
+디자인 툴과 코드 저장소의 토큰이 분리될 때다.
+도구 간 동기화 실패는 디자인 리뷰와 실제 구현 간 차이를 만든다.
+결론적으로,
+토큰은 장식용 사전이 아니라
+시스템 구성값의 단일 진실 공급원이어야 한다.</p>
+</blockquote>
+<hr />
+<h2 id="3-breaking-change-semantic-versioning">§3. 버전 관리와 Breaking Change — Semantic Versioning<a class="headerlink" href="#3-breaking-change-semantic-versioning" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 컴포넌트를 개선하면 기존 제품이 깨질 수 있다. 변경을 멈추지 않으면서도 소비자 팀의 안정성을 어떻게 보장할 것인가?
+디자인 시스템은 라이브러리다.
+라이브러리라면 버전 정책이 있어야 한다.
+실무에서 가장 흔한 실패는
+"스타일 수정"이라고 배포했는데
+실제로는 접근성이나 레이아웃 계약을 깨는 변경인 경우다.
+예를 들어,
+버튼 높이를 줄였더니
+터치 타깃이 작아져 모바일 사용성이 떨어진다.
+혹은 포커스 링을 제거해 키보드 탐색 가능성이 사라진다.
+이건 미관 변경이 아니라 계약 파손이다.<sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref2:2"><a class="footnote-ref" href="#fn:2">2</a></sup>
+그래서 버전 정책은
+코드 API뿐 아니라
+시각·상호작용·접근성 API를 함께 다뤄야 한다.
+권장되는 분류는 다음과 같다.
+- <code>MAJOR</code>: 기존 마크업/속성/행동을 깨는 변경
+- <code>MINOR</code>: 하위 호환되는 기능 추가
+- <code>PATCH</code>: 결함 수정, 시각 미세조정, 문서 오타 수정
+중요한 점은
+"무엇이 breaking인지"
+를 문서화해 공유하는 것이다.
+예시로,
+다음 변경은 MAJOR로 취급하는 편이 안전하다.
+- 필수 prop 이름 변경 (<code>size</code> -&gt; <code>scale</code>)
+- 기본 색상 대비가 달라져 명암비 계약이 깨짐
+- 키보드 이벤트 흐름 변경 (Enter/Space 동작 불일치)
+- 슬롯 구조 변경으로 기존 children 렌더링이 깨짐
+반대로,
+아이콘 정렬 1px 보정,
+문구 오탈자 수정,
+내부 리팩터링은 보통 PATCH다.
+Material,
+Carbon,
+Lightning,
+USWDS는 모두 릴리스 노트,
+마이그레이션 가이드,
+사용 규칙 문서를 통해
+소비자 팀이 "무엇이 바뀌는지"를 사전에 알 수 있게 운영한다.<sup id="fnref3:4"><a class="footnote-ref" href="#fn:4">4</a></sup><sup id="fnref3:5"><a class="footnote-ref" href="#fn:5">5</a></sup><sup id="fnref3:6"><a class="footnote-ref" href="#fn:6">6</a></sup><sup id="fnref4:7"><a class="footnote-ref" href="#fn:7">7</a></sup>
+버전 정책이 없는 디자인 시스템은
+중앙화된 혼란일 뿐이다.
+버전 정책이 있는 디자인 시스템만이
+확장 가능한 공유 인프라가 된다.</p>
+</blockquote>
+<hr />
+<h2 id="4-compliance-as-test-suite">§4. 접근성 — Compliance as Test Suite<a class="headerlink" href="#4-compliance-as-test-suite" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 모든 사용자가 시스템을 사용할 수 있어야 한다. 접근성을 "좋으면 하는 것"이 아니라 "출시 조건"으로 어떻게 강제할 것인가?
+접근성은 옵션이 아니다.
+공통 컴포넌트라면 기본적으로 접근성을 내장해야 한다.
+WCAG는 웹 접근성의 국제 기준을 제시한다.
+핵심 원칙은
+지각 가능,
+운용 가능,
+이해 가능,
+견고성(POUR)
+이다.<sup id="fnref3:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref3:2"><a class="footnote-ref" href="#fn:2">2</a></sup>
+엔지니어링적으로는
+이를 테스트 가능한 항목으로 변환해야 한다.
+예를 들어 컴포넌트 단위의 체크리스트는 다음과 같다.
+- 명도 대비가 기준을 만족하는가
+- 키보드만으로 모든 상호작용이 가능한가
+- 포커스 순서가 시각 순서와 일치하는가
+- 상태 변화가 스크린 리더에 전달되는가
+- 오류 메시지가 필드와 프로그래매틱하게 연결되는가
+여기서 포인트는
+"페이지가 아니라 컴포넌트에서 먼저 통과"
+다.
+기본 부품이 접근성을 만족하면,
+페이지 수준 검증 비용이 크게 줄어든다.
+W3C WAI는 WCAG뿐 아니라
+Authoring Practices,
+튜토리얼,
+체크 도구 가이드를 통해
+패턴별 구현 지침을 제공한다.<sup id="fnref4:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref2:9"><a class="footnote-ref" href="#fn:9">9</a></sup>
+운영 모델로 보면,
+접근성은 QA 마지막 단계 검수가 아니라
+컴포넌트 CI 파이프라인의 품질 게이트여야 한다.
+예를 들어 다음 흐름이 필요하다.
+1. 토큰/컴포넌트 변경 PR 생성
+2. 시각 회귀 테스트 실행
+3. 접근성 규칙 검사 실행
+4. 수동 보조기기 점검(필요 컴포넌트)
+5. 릴리스 승인
+이 파이프라인이 없으면,
+접근성 결함은 제품 팀으로 전가된다.
+그 순간 디자인 시스템은 품질 증폭기가 아니라 결함 증폭기가 된다.</p>
+</blockquote>
+<hr />
+<h2 id="5">§5. 거버넌스 — 누가 컴포넌트를 관리하는가<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 시스템은 공용 자산인데, 우선순위는 팀마다 다르다. 누가 변경을 승인하고, 누가 예외를 통제하며, 누가 장기 부채를 상환하는가?
+디자인 시스템은 도구가 아니라 조직 구조다.
+거버넌스 없이는 유지되지 않는다.
+가장 실용적인 모델은
+"코어 팀 + 소비자 기여"
+모델이다.
+- 코어 팀: 아키텍처, 품질 기준, 릴리스 정책 소유
+- 소비자 팀: 기능 요구 제안, 버그 제보, 기여 PR 제출
+- 리뷰 위원회: 예외 승인, 우선순위 조정, 분쟁 해결
+오픈소스 프로젝트의
+<code>CODEOWNERS</code>,
+RFC,
+릴리스 캘린더,
+deprecation 정책과
+매우 유사하다.
+<pre class="mermaid"><code>flowchart TD
+    A[제품 팀 이슈 제기&lt;br/&gt;새 요구 또는 버그]
+    B[RFC 또는 제안서 작성]
+    C[디자인 시스템 코어 리뷰]
+    D[접근성/호환성 검증]
+    E[승인 후 구현 PR]
+    F[버전 릴리스 및 마이그레이션 공지]
+    G[소비자 팀 적용]
+    A --&gt; B --&gt; C --&gt; D --&gt; E --&gt; F --&gt; G
+    C --&gt;|보류/반려| B
+    D --&gt;|실패| E
+    style A fill:#1a1a2e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style B fill:#16213e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style C fill:#0f3460,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style D fill:#1f4068,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style E fill:#2a2a3e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style F fill:#533483,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style G fill:#3a3a5e,stroke:#e94560,stroke-width:2px,color:#ffffff</code></pre>
+거버넌스에서 자주 충돌하는 질문은 세 가지다.
+첫째,
+"제품 출시 일정이 급한데 예외를 허용할 것인가?"
+둘째,
+"한 서비스만 필요한 컴포넌트를 공통 라이브러리에 넣을 것인가?"
+셋째,
+"브레이킹 체인지의 이행 비용을 누가 부담할 것인가?"
+이 질문에 대한 조직의 답이
+곧 디자인 시스템의 실제 형태다.
+USWDS,
+Carbon,
+Lightning처럼 장기 운영되는 시스템은
+기여 가이드,
+거버넌스 문서,
+릴리스 정책을 명시해
+의사결정을 사람 의존이 아닌 규칙 의존으로 전환한다.<sup id="fnref4:6"><a class="footnote-ref" href="#fn:6">6</a></sup><sup id="fnref5:7"><a class="footnote-ref" href="#fn:7">7</a></sup><sup id="fnref2:10"><a class="footnote-ref" href="#fn:10">10</a></sup>
+핵심은 단순하다.
+컴포넌트 품질은 코드에서 결정되지만,
+컴포넌트 수명은 거버넌스에서 결정된다.</p>
+</blockquote>
+<hr />
+<h2 id="organizational-context">조직 내 위치 (Organizational Context)<a class="headerlink" href="#organizational-context" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 디자인 시스템 팀은 조직의 어디에 있어야 가장 큰 레버리지를 만들 수 있는가?
+디자인 시스템은 단일 기능 팀의 하위 모듈이 아니다.
+제품 조직 전반에 걸친 플랫폼 기능에 가깝다.
+| 구분 | 주요 대상 | 의존 관계 | 기대 산출물 |
+|---|---|---|---|
+| <strong>상위 의존성</strong> | 브랜드 전략, 접근성/법무, 제품 전략 | 브랜드 원칙·규제 요구를 입력받음 | 토큰 원칙, 접근성 기준, 컴포넌트 우선순위 |
+| <strong>하위 의존성</strong> | 웹/앱 프론트엔드, 디자인 툴 체인, 문서 플랫폼 | 시스템을 실제 제품에 적용 | 컴포넌트 구현, 예제 코드, 변경 알림 |
+| <strong>수평 의존성</strong> | QA, 데이터, 콘텐츠, 고객지원 | 품질 지표와 운영 피드백 교환 | 결함 리포트, 사용성 지표, FAQ 패턴 반영 |
+실행 관점에서,
+디자인 시스템 팀은
+"중앙 통제 조직"
+이 아니라
+"공유 플랫폼 팀"
+처럼 운영될 때 성공 확률이 높다.</p>
+</blockquote>
+<hr />
+<h2 id="maturity-model">성숙도 단계 (Maturity Model)<a class="headerlink" href="#maturity-model" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 모든 조직이 같은 수준의 시스템을 한 번에 만들 수는 없다. 현재 단계에 맞는 최소 운영 모델은 무엇인가?
+| 단계 | 운영 특징 | 기술 특징 | 리스크 | 다음 단계 진입 조건 |
+|---|---|---|---|---|
+| <strong>Startup</strong> | 소수 인원이 암묵 규칙으로 UI 생산 | 공통 컴포넌트 일부, 토큰 미정형 | 속도는 빠르나 일관성 급락 | 핵심 컴포넌트 10~20개 계약 문서화 |
+| <strong>Growth</strong> | 코어 팀 형성, 기여 프로세스 시작 | 토큰 계층 도입, 버전 정책 도입 | 소비자 팀 이행 비용 증가 | 접근성 게이트와 마이그레이션 자동화 |
+| <strong>Enterprise</strong> | 거버넌스 정착, 다중 제품 동기화 | 멀티플랫폼 토큰 파이프라인, 릴리스 캘린더 | 의사결정 지연, 과도한 표준화 | 예외 처리 SLA와 도메인 확장 전략 |
+성숙도 모델의 포인트는
+"완벽한 시스템을 한 번에"
+가 아니라
+"다음 병목을 제거하는 수준까지"
+다.</p>
+</blockquote>
+<hr />
+<h2 id="_3">변경 이력 — 세 번의 전환점<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 인터페이스 표준화는 어떤 압력에서 진화해 왔는가?</p>
+</blockquote>
+<h3 id="1">1) 프리디지털 시기 — 브랜드 매뉴얼 중심<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p>인쇄 중심 시대의 브랜드 가이드는
+색상,
+로고,
+타이포그래피 규정이 핵심이었다.
+이 시기의 강점은 정체성 통일,
+약점은 상호작용 규칙 부재였다.</p>
+<h3 id="2-saas">2) SaaS/데이터 시기 — 도구 기반 협업 확장<a class="headerlink" href="#2-saas" title="Permanent link">&para;</a></h3>
+<p>웹·모바일 제품이 급증하면서
+정적 매뉴얼만으로는 속도를 감당할 수 없게 되었다.
+Material,
+HIG,
+USWDS,
+Carbon,
+Lightning 같은 공개 시스템은
+"가이드 + 코드 + 운영 문서"
+구조를 제도화했다.<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup><sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup><sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup><sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup><sup id="fnref:10"><a class="footnote-ref" href="#fn:10">10</a></sup></p>
+<h3 id="3-ai-ui">3) AI/현재 시기 — 토큰 자동화와 생성형 UI 실험<a class="headerlink" href="#3-ai-ui" title="Permanent link">&para;</a></h3>
+<p>현재 전환점의 핵심은
+토큰의 표준 포맷화 시도,
+컴포넌트 생성 자동화,
+접근성 자동검사 강화다.<sup id="fnref:8"><a class="footnote-ref" href="#fn:8">8</a></sup><sup id="fnref:9"><a class="footnote-ref" href="#fn:9">9</a></sup>
+다만 생성형 UI가 빠르게 확산될수록,
+거버넌스 없는 자동화는
+일관성 붕괴를 더 빠르게 만든다.
+즉,
+AI는 시스템의 대체재가 아니라
+운영 체계를 더 엄격히 요구하는 증폭기다.</p>
+<hr />
+<h2 id="_4">운영 모델 비교<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 대표적 공개 디자인 시스템은 같은 문제를 어떻게 다르게 푸는가?
+| 시스템 | 운영 초점 | 강점 | 주의점 |
+|---|---|---|---|
+| <strong>Material Design (Google)</strong> | 대규모 제품군의 일관된 상호작용·컴포넌트 원칙 | 컴포넌트/패턴 문서와 실사용 가이드가 풍부 | 제품 특수성을 반영하지 않으면 과도한 동형화 위험<sup id="fnref4:4"><a class="footnote-ref" href="#fn:4">4</a></sup> |
+| <strong>Human Interface Guidelines (Apple)</strong> | 플랫폼 네이티브 경험, 입력 방식·플랫폼 관습 준수 | OS 맥락과 사용자 기대를 강하게 반영 | 크로스플랫폼 제품에서 단일 규칙으로 복제하기 어려움<sup id="fnref4:5"><a class="footnote-ref" href="#fn:5">5</a></sup> |
+| <strong>Carbon (IBM)</strong> | 엔터프라이즈 업무 제품의 확장성과 접근성 | 복잡한 B2B 워크플로우에 맞춘 컴포넌트 체계 | 조직 내 학습 비용이 큼<sup id="fnref5:6"><a class="footnote-ref" href="#fn:6">6</a></sup> |
+| <strong>Lightning Design System (Salesforce)</strong> | 대규모 제품 생태계의 통합 UI 규칙 | 디자인/개발 자산 동기화와 명확한 패턴 가이드 | 생태계 외부 제품에 적용 시 커스터마이징 비용 발생<sup id="fnref3:10"><a class="footnote-ref" href="#fn:10">10</a></sup> |
+이 비교에서 중요한 결론은
+"정답 시스템 선택"
+이 아니라
+"우리 조직의 제약에 맞는 운영 원칙 선택"
+이다.</p>
+</blockquote>
+<hr />
+<h2 id="limits-of-the-analogy">이 비유의 한계 (Limits of the Analogy)<a class="headerlink" href="#limits-of-the-analogy" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 디자인 시스템을 소프트웨어 비유로 설명할 때 무엇이 잘 설명되고, 무엇이 왜곡되는가?
+| 비유가 작동하는 곳 | 비유가 깨지는 곳 | 이유 |
+|---|---|---|
+| <strong>컴포넌트 계약 = API 계약</strong>으로 보면 재사용 조건을 명확히 정의할 수 있다. | 디자인은 감성·브랜드 맥락이 강해 동일 API여도 체감 품질이 달라진다. | 함수 계약은 기계적으로 검증되지만 미적 품질은 사용자 맥락 의존적이다. |
+| <strong>토큰 = 설정 관리</strong>로 보면 테마 전환과 다중 브랜드 운영을 체계화할 수 있다. | 색상·타이포그래피의 문화적 해석은 숫자 설정만으로 환원되지 않는다. | 동일 명도 대비를 만족해도 문화권별 인지·선호가 다를 수 있다. |
+| <strong>접근성 기준 = 테스트 스위트</strong>는 품질 게이트 설계에 매우 유용하다. | 자동 검사 통과가 실제 사용성 보장을 의미하지는 않는다. | WCAG 준수와 사용자 경험의 충분조건은 다르며 수동 검증이 필요하다.<sup id="fnref5:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref4:2"><a class="footnote-ref" href="#fn:2">2</a></sup> |
+| <strong>버전 정책 = 세맨틱 버저닝</strong>은 변경 위험을 전달하는 공통 언어를 준다. | UI 변화의 파급은 코드 의존성 외에 교육·운영·지원 비용까지 포함한다. | 프런트 변경은 고객센터 스크립트, 온보딩 문서, 내부 교육에도 영향 준다. |
+| <strong>거버넌스 = 오픈소스 운영</strong>은 기여 모델 설계에 직접 적용 가능하다. | 사내 권력 구조와 KPI 충돌은 오픈소스보다 비대칭적이다. | 동일 규칙이 있어도 조직 정치와 예산 구조가 의사결정을 왜곡할 수 있다. |
+| <strong>Atomic 계층 = 아키텍처 계층</strong>은 분해·조합 관점을 제공한다. | 실제 제품은 도메인별 예외가 많아 계층 경계가 자주 흐려진다. | 복잡한 도메인 화면은 Organism과 Template의 경계가 고정되지 않는다. |
+종합하면,
+엔지니어링 비유는 구조를 설명하는 데 강하다.
+하지만 경험 품질의 전부를 설명하지는 못한다.
+비유는 도구이지 결론이 아닙니다.</p>
+</blockquote>
+<hr />
+<h2 id="sources">출처 (Sources)<a class="headerlink" href="#sources" title="Permanent link">&para;</a></h2>
+<h3 id="1_1">1순위 — 표준 및 규격<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>W3C Web Accessibility Initiative (WAI), "WAI Standards and Guidelines: WCAG". https://www.w3.org/WAI/standards-guidelines/wcag/</li>
+<li>W3C, "Web Content Accessibility Guidelines (WCAG) 2.2". https://www.w3.org/TR/WCAG22/</li>
+</ul>
+<h3 id="2">2순위 — 공개 디자인 시스템 공식 문서<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>U.S. Web Design System (USWDS). https://designsystem.digital.gov/</li>
+<li>Material Design 3. https://m3.material.io/</li>
+<li>Apple Human Interface Guidelines. https://developer.apple.com/design/human-interface-guidelines/</li>
+<li>IBM Carbon Design System. https://carbondesignsystem.com/</li>
+<li>Salesforce Lightning Design System. https://www.lightningdesignsystem.com/</li>
+</ul>
+<h3 id="_5">참고 — 방법론 및 표준화 논의<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Atomic Design by Brad Frost. https://atomicdesign.bradfrost.com/</li>
+<li>Design Tokens Community Group (W3C Community Group). https://design-tokens.github.io/community-group/format/</li>
+<li>WAI-ARIA Authoring Practices Guide (APG). https://www.w3.org/WAI/ARIA/apg/</li>
+</ul>
+<hr />
+<h2 id="_6">각주<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="see-also">관련 글 (See Also)<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="./brand-guideline-as-interface-contract.md">브랜드 가이드라인 — Identity as Interface Contract</a> <em>(예정)</em></li>
+<li><a href="./design-qa-as-regression-pipeline.md">디자인 QA — Visual Regression as Quality Gate</a> <em>(예정)</em></li>
+<li><a href="../../engineering/platform/frontend-platform-as-shared-infra.md">프론트엔드 플랫폼 — Shared UI Infra</a> <em>(예정)</em></li>
+<li><a href="../case/ab-test-vs-design-consistency.md">제품 실험 — A/B 테스트와 컴포넌트 거버넌스</a> <em>(예정)</em></li>
+</ul>
+<hr />
+<!--
+시스템 분석 체크리스트 (methodology.md):
+- [x] 1순위 또는 2순위 출처가 최소 1개 인용되어 있는가
+- [x] Terminology map이 포함되어 있는가 (6개 핵심 개념 매핑)
+- [x] Source basis가 명시되어 있는가
+- [x] Limits of the analogy가 구체적으로 작성되어 있는가
+- [x] Disclaimer가 포함되어 있는가
+- [x] Mermaid 다이어그램이 포함되어 있는가 (3개)
+- [x] 사용된 모든 메타포가 섹션별로 분리되어 있는가
+- [x] 규범적 판단과 시스템 기술이 분리되어 있는가
+- [x] See also 링크가 관련 글을 정확히 가리키는가 (예정 표시)
+- [ ] notable_cases에 관련 케이스가 등록되어 있는가 (아직 케이스 글이 없음)
+-->
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>W3C WAI, "WAI Standards and Guidelines: WCAG". WCAG의 원칙과 버전(2.0/2.1/2.2), 관련 보조 문서 체계를 제시한다. https://www.w3.org/WAI/standards-guidelines/wcag/&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref5:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>W3C, "Web Content Accessibility Guidelines (WCAG) 2.2". 성공 기준과 준수 레벨(A/AA/AAA)을 명시한다. https://www.w3.org/TR/WCAG22/&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>Brad Frost, "Atomic Design". UI를 Atom/Molecule/Organism/Template/Page 계층으로 설명하는 방법론. https://atomicdesign.bradfrost.com/&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p>Google, "Material Design 3" 공식 문서. 컴포넌트, 패턴, 토큰 기반 테마 가이드를 제공한다. https://m3.material.io/&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:4" title="Jump back to footnote 4 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:4" title="Jump back to footnote 4 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:5">
+<p>Apple, "Human Interface Guidelines". 플랫폼별 인터랙션 관습과 구성 요소 원칙을 정의한다. https://developer.apple.com/design/human-interface-guidelines/&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:5" title="Jump back to footnote 5 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:5" title="Jump back to footnote 5 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:6">
+<p>IBM, "Carbon Design System". 엔터프라이즈 제품을 위한 컴포넌트/가이드/접근성 문서를 제공한다. https://carbondesignsystem.com/&#160;<a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:6" title="Jump back to footnote 6 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:6" title="Jump back to footnote 6 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:6" title="Jump back to footnote 6 in the text">&#8617;</a><a class="footnote-backref" href="#fnref5:6" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn:7">
+<p>U.S. General Services Administration, "U.S. Web Design System". 토큰, 컴포넌트, 접근성 중심 운영 원칙을 공개한다. https://designsystem.digital.gov/&#160;<a class="footnote-backref" href="#fnref:7" title="Jump back to footnote 7 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:7" title="Jump back to footnote 7 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:7" title="Jump back to footnote 7 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:7" title="Jump back to footnote 7 in the text">&#8617;</a><a class="footnote-backref" href="#fnref5:7" title="Jump back to footnote 7 in the text">&#8617;</a></p>
+</li>
+<li id="fn:8">
+<p>Design Tokens Community Group, "Format Module". 디자인 토큰의 교환 가능한 데이터 형식 표준화를 다룬다. https://design-tokens.github.io/community-group/format/&#160;<a class="footnote-backref" href="#fnref:8" title="Jump back to footnote 8 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:8" title="Jump back to footnote 8 in the text">&#8617;</a></p>
+</li>
+<li id="fn:9">
+<p>W3C WAI-ARIA Authoring Practices Guide. 공통 위젯 패턴의 접근성 구현 관행을 제시한다. https://www.w3.org/WAI/ARIA/apg/&#160;<a class="footnote-backref" href="#fnref:9" title="Jump back to footnote 9 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:9" title="Jump back to footnote 9 in the text">&#8617;</a></p>
+</li>
+<li id="fn:10">
+<p>Salesforce, "Lightning Design System". 컴포넌트 패턴과 디자인 가이드, 구현 리소스를 제공한다. https://www.lightningdesignsystem.com/&#160;<a class="footnote-backref" href="#fnref:10" title="Jump back to footnote 10 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:10" title="Jump back to footnote 10 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:10" title="Jump back to footnote 10 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      CC BY-SA 4.0
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/yeongseon/world-through-software-engineering" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "content.code.copy", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../../../../javascripts/mermaid.js"></script>
+      
+    
+  </body>
+</html>

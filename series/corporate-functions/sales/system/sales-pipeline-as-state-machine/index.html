@@ -1,0 +1,4102 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="대한민국 시스템과 회사 직군을 소프트웨어 엔지니어링 관점에서 분석하는 프로젝트">
+      
+      
+      
+        <link rel="canonical" href="https://yeongseon.github.io/world-through-software-engineering/series/corporate-functions/sales/system/sales-pipeline-as-state-machine/">
+      
+      
+        <link rel="prev" href="../../">
+      
+      
+        <link rel="next" href="../../../marketing/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>영업 파이프라인을 상태 머신으로 - 소프트웨어 엔지니어 관점에서 보는 세상</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href="../../../../.." title="소프트웨어 엔지니어 관점에서 보는 세상" class="md-header__button md-logo" aria-label="소프트웨어 엔지니어 관점에서 보는 세상" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            소프트웨어 엔지니어 관점에서 보는 세상
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              영업 파이프라인을 상태 머신으로
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="다크 모드로 전환"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="다크 모드로 전환" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="라이트 모드로 전환"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="라이트 모드로 전환" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/yeongseon/world-through-software-engineering" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    yeongseon/world-through-software-engineering
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="소프트웨어 엔지니어 관점에서 보는 세상" class="md-nav__button md-logo" aria-label="소프트웨어 엔지니어 관점에서 보는 세상" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    소프트웨어 엔지니어 관점에서 보는 세상
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/yeongseon/world-through-software-engineering" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    yeongseon/world-through-software-engineering
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    홈
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../manifesto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    선언문
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../methodology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    방법론
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../glossary/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    공유 용어 사전
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    대한민국 시스템
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    대한민국 시스템
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    용어 사전
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    정치
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    정치
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/politics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    법률
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    법률
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/law/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/law/system/constitution-as-root-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    헌법
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    경제
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    경제
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/economy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사회
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    사회
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../korea-systems/society/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    회사 직군
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    회사 직군
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    용어 사전
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PM
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PM
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pm/system/sprint-as-iteration-cycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스프린트 주기를 이터레이션 사이클로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    법무
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    법무
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../legal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../legal/system/contract-as-interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    계약을 인터페이스로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    재무
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    재무
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../finance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../finance/system/accounting-as-layered-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    회계를 레이어드 아키텍처로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HR
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HR
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hr/system/hiring-as-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    채용을 파이프라인으로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    세일즈
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    세일즈
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    영업 파이프라인을 상태 머신으로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    영업 파이프라인을 상태 머신으로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#disclaimer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        면책 조항 (Disclaimer)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        이 글을 읽기 전에 — 핵심 개념 매핑
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        시스템 브리프 — 영업 시스템이 풀어야 하는 설계 과제
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-state-machine-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §1. 파이프라인의 구조 — State Machine Definition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§1. 파이프라인의 구조 — State Machine Definition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 상태 모델이 없는 조직의 실패 패턴
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 최소 상태 집합과 종료 상태
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 상태 전이 다이어그램
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 전환 가드 예시
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 산업별 짧은 사례
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-input-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §2. 리드 자격 심사 — Input Validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§2. 리드 자격 심사 — Input Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 왜 자격 심사가 파이프라인의 시작점인가
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-bant-meddic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 BANT와 MEDDIC을 스키마로 해석하기
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 검증 필드 설계 예시
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    마케팅
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    마케팅
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../marketing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../marketing/system/segmentation-as-partitioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    고객 세분화를 파티셔닝으로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_9" id="__nav_6_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    운영
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    운영
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/system/sop-as-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SOP를 런북으로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_10" id="__nav_6_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    디자인
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    디자인
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    소개
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/system/design-system-as-component-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    디자인 시스템을 컴포넌트 라이브러리로
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../topics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시리즈 횡단 주제
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#disclaimer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        면책 조항 (Disclaimer)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        이 글을 읽기 전에 — 핵심 개념 매핑
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        시스템 브리프 — 영업 시스템이 풀어야 하는 설계 과제
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-state-machine-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §1. 파이프라인의 구조 — State Machine Definition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§1. 파이프라인의 구조 — State Machine Definition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 상태 모델이 없는 조직의 실패 패턴
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 최소 상태 집합과 종료 상태
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 상태 전이 다이어그램
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 전환 가드 예시
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 산업별 짧은 사례
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-input-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §2. 리드 자격 심사 — Input Validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§2. 리드 자격 심사 — Input Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 왜 자격 심사가 파이프라인의 시작점인가
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-bant-meddic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 BANT와 MEDDIC을 스키마로 해석하기
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 검증 필드 설계 예시
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">영업 파이프라인 — 고객 상태 전이의 설계 문서<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>한 줄 요약</strong>: 영업 파이프라인은 잠재 고객의 상태를 추적하는 State Machine이다.</p>
+</blockquote>
+<h2 id="disclaimer">면책 조항 (Disclaimer)<a class="headerlink" href="#disclaimer" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>이 글은 영업 운영을 시스템 설계 관점으로 해석한 분석 문서다.
+비유는 구조를 이해하기 위한 도구이며, 산업별 법규와 내부 통제를 대체하지 않는다.
+실제 의사결정에는 법령 원문, 공시 문서, 회사의 공식 정책을 우선 적용해야 한다.</p>
+</blockquote>
+<hr />
+<h2 id="_2">이 글을 읽기 전에 — 핵심 개념 매핑<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>아래 용어 7개를 먼저 고정하면,
+영업 조직의 데이터,
+회의,
+예측,
+성과 지표를
+하나의 모델로 읽을 수 있다.
+| 개념 | 시스템 관점의 대응 |
+|---|---|
+| <strong>리드 (Lead)</strong> | 파이프라인에 유입되는 원시 입력 이벤트(Input Event). 아직 검증되지 않은 후보 객체다.[^1] |
+| <strong>파이프라인 (Pipeline)</strong> | 리드/딜 객체가 상태를 따라 이동하는 상태 기계(State Machine)다.[^2] |
+| <strong>스테이지 (Stage)</strong> | 딜의 현재 상태(State). 상태마다 책임자, 기대 행동, 승인 조건이 다르다. |
+| <strong>전환 (Transition)</strong> | 상태 이동 조건(State Transition). 증거 없는 전환은 데이터 오염으로 간주한다. |
+| <strong>성약/클로징 (Won/Lost)</strong> | 종료 상태(Terminal State). 상위 상태로 더 이상 진행하지 않는다. |
+| <strong>예측 (Forecast/Commit)</strong> | 확률 추정(Forecast)과 책임 확정(Commit)을 분리한 계획 레이어다.[^3] |
+| <strong>이탈 (Drop-off/Dead Letter)</strong> | 지정 시간/조건 미충족으로 처리 중단된 딜. 재진입 규칙이 필요하다. |</p>
+<hr />
+<h2 id="_3">시스템 브리프 — 영업 시스템이 풀어야 하는 설계 과제<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>잠재 고객은 많고,
+영업 자원은 제한되어 있으며,
+분기 매출은 고정된 시간 안에 만들어야 한다.
+따라서 설계 질문은 다음으로 수렴한다.
+<strong>"어떤 고객에게 집중해야 하는지,
+각 고객이 지금 어떤 상태인지,
+언제 다음 행동을 해야 하는지를
+어떻게 관리할 것인가?"</strong>
+이 문제를 사람의 감각만으로 운영하면
+초기에는 빠르지만,
+조직이 커질수록
+재현성과 통제가 무너진다.
+반대로,
+상태 정의,
+전환 조건,
+검증 필드,
+로그 구조,
+예측 규칙을 명시하면
+딜의 수가 늘어나도
+운영 품질을 유지할 수 있다.</p>
+<hr />
+<h2 id="1-state-machine-definition">§1. 파이프라인의 구조 — State Machine Definition<a class="headerlink" href="#1-state-machine-definition" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 고객의 상태를 어떻게 정의하고 추적할 것인가?</p>
+</blockquote>
+<h3 id="11">1.1 상태 모델이 없는 조직의 실패 패턴<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>상태 모델이 없으면,
+"거의 성사",
+"협의 중",
+"진행 예정" 같은 문장이
+데이터 필드를 대신한다.
+이때 발생하는 문제는 세 가지다.
+첫째,
+담당자마다 같은 단어의 의미가 다르다.
+둘째,
+분기 예측이 개인 낙관도에 종속된다.
+셋째,
+병목을 분석할 기준점이 사라진다.</p>
+<h3 id="12">1.2 최소 상태 집합과 종료 상태<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>실무 명칭은 다양하지만,
+많은 조직은 아래 형태로 수렴한다.
+- <code>Lead</code>: 입력 유입 직후. 적합성 미검증.
+- <code>Qualified</code>: 문제/예산/권한 등 기본 조건 일부 확인.
+- <code>Proposal</code>: 제안서, 견적, 상업 조건 전달.
+- <code>Negotiation</code>: 가격/법무/구매 협의.
+- <code>Won</code>: 계약 체결 또는 결제 확정.
+- <code>Lost</code>: 경쟁사 선택, 예산 중단, 우선순위 이탈.
+이 모델의 핵심은
+스테이지 이름이 아니라
+전환 가드(guard)다.</p>
+<h3 id="13">1.3 상태 전이 다이어그램<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; Lead
+    Lead --&gt; Qualified: Fit/Need 최소 요건 충족
+    Qualified --&gt; Proposal: 문제 정의 + 의사결정 라인 확인
+    Proposal --&gt; Negotiation: 상업 조건 협상 개시
+    Negotiation --&gt; Won: 계약 서명/결제 확정
+    Negotiation --&gt; Lost: 경쟁사 선택/예산 중단
+    Proposal --&gt; Lost: 요구 불일치/내부 우선순위 변경
+    Qualified --&gt; Lost: 검증 실패/장기 보류
+    Lead --&gt; Lost: 초기 스팸/부적합
+    classDef dark fill:#1a1a2e,stroke:#e94560,stroke-width:2px,color:#ffffff;
+    class Lead,Qualified,Proposal,Negotiation,Won,Lost dark;</code></pre>
+<h3 id="14">1.4 전환 가드 예시<a class="headerlink" href="#14" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Lead -&gt; Qualified</code>: ICP 적합 여부, 연락 가능성, 최소 니즈 확인.</li>
+<li><code>Qualified -&gt; Proposal</code>: 문제 정의 기록, 이해관계자 맵, 일정 합의.</li>
+<li><code>Proposal -&gt; Negotiation</code>: 제안 수신 확인, 가격/조건 질의 발생.</li>
+<li><code>Negotiation -&gt; Won</code>: 계약서 서명 또는 주문/결제 이벤트 확정.
+가드 없는 전환은
+단기적으로 숫자를 예쁘게 만들 수 있지만,
+다음 분기부터 예측 오차를 키운다.</li>
+</ul>
+<h3 id="15">1.5 산업별 짧은 사례<a class="headerlink" href="#15" title="Permanent link">&para;</a></h3>
+<p><code>SaaS B2B</code>:
+POC 결과 문서 없이
+<code>Negotiation</code>으로 넘기면
+법무 단계에서 반복 역류가 발생한다.
+<code>보험 영업</code>:
+청약 전 설명 의무 기록이 불완전하면
+체결 건수는 높아 보여도
+유지율/민원 비용에서 손실이 난다.
+<code>자동차 딜러</code>:
+시승 완료,
+트림 확정,
+금융 가능성 확인이 없으면
+<code>Commit</code> 정확도가 급격히 낮아진다.</p>
+<hr />
+<h2 id="2-input-validation">§2. 리드 자격 심사 — Input Validation<a class="headerlink" href="#2-input-validation" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>설계 문제</strong>: 모든 리드를 동일하게 처리하면 자원이 낭비된다. 어떤 입력을 파이프라인에 넣을 것인가?</p>
+</blockquote>
+<h3 id="21">2.1 왜 자격 심사가 파이프라인의 시작점인가<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p>리드는 많아도,
+영업 담당자의 시간은 적다.
+모든 리드를 같은 우선순위로 처리하면
+고가치 딜이 큐에서 밀리고,
+저가치 딜에 인력이 고정된다.
+자격 심사는
+영업팀의 CPU 스케줄러다.</p>
+<h3 id="22-bant-meddic">2.2 BANT와 MEDDIC을 스키마로 해석하기<a class="headerlink" href="#22-bant-meddic" title="Permanent link">&para;</a></h3>
+<p>BANT와 MEDDIC은
+"잘 팔기 기술"이라기보다
+입력 검증 스키마로 보는 편이
+운영에 유리하다.
+- <code>BANT</code>: Budget, Authority, Need, Timing
+- <code>MEDDIC</code>: Metrics, Economic buyer, Decision criteria, Decision process, Identify pain, Champion
+두 프레임은 경쟁이 아니라 레이어다.
+초기 필터는 BANT,
+엔터프라이즈 딜 심화 검증은 MEDDIC으로
+분할 운영하는 방식이 흔하다.</p>
+<h3 id="23">2.3 검증 필드 설계 예시<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>검증 필드</th>
+<th>최소 충족 기준</th>
+<th>실패 시 처리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Budget</td>
+<td>예산 범위 또는 집행 프로세스 식별</td>
+<td><code>Lead</code> 유지 또는 nurture 큐 이동</td>
+</tr>
+<tr>
+<td>Authority</td>
+<td>의사결정자/영향자 최소 1인 식별</td>
+<td><code>Qualified</code> 승격 보류</td>
+</tr>
+<tr>
+<td>Need</td>
+<td>현재 문제와 KPI 손실의 명시</td>
+<td>재진단 미팅 전 전환 금지</td>
+</tr>
+<tr>
+<td>Timing</td>
+<td>도입 시점/구매 캘린더 확인</td>
+<td>장기 파이프라인으로 분리</td>
+</tr>
+<tr>
+<td>Compliance</td>
+<td>업종 규제/약관/개인정보 적합성</td>
+<td>법무 검토 완료 전 진행 금지</td>
+</tr>
+<tr>
+<td>### 2.4 법령이 입력 단계에서 중요한 이유</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>B2C와 방문 판매 성격의 영업에서는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>설명 의무,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>계약서 교부,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>청약철회 고지 누락이</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>후행 취소와 분쟁 비용으로 이어진다.[^4][^5]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>즉,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>컴플라이언스는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>딜 종료 후 점검 항목이 아니라</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>리드 처리 초기에 포함되어야 할</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>입력 유효성 검증이다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 2.5 사례</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>보험 영업</code>:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>상품 설명 기록 누락 상태에서</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>계약 수만 늘리면</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>해지율이 높은 파이프라인이 된다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>자동차 딜러</code>:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>금융 조건 안내 불일치는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>단기 계약률보다</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>클레임 비용에서 크게 반영된다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## §3. 전환율과 병목 — Throughput Analysis</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&gt; <strong>설계 문제</strong>: 어디에서 고객이 가장 많이 이탈하는가? 스테이지별 전환율을 어떻게 해석할 것인가?</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 3.1 파이프라인은 재고가 아니라 흐름이다</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>많은 팀이</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>"이번 달 리드 수"를 먼저 본다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>하지만 매출은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>리드 수가 아니라</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>상태 전이의 처리량에서 나온다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>따라서 핵심 지표는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>전환율,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>체류 시간,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>동시 진행량(WIP),</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>이탈 사유 분포다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 3.2 퍼널 다이어그램</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><pre class="mermaid"><code>flowchart TD
+    L[Lead 1000] --&gt;|60%| Q[Qualified 600]
+    Q --&gt;|35%| P[Proposal 210]
+    P --&gt;|45%| N[Negotiation 95]
+    N --&gt;|42%| W[Won 40]
+    N --&gt;|58%| X[Lost 55]
+    classDef dark fill:#1a1a2e,stroke:#e94560,stroke-width:2px,color:#ffffff;
+    class L,Q,P,N,W,X dark;</code></pre></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>이 예시에서 가장 큰 병목은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Qualified -&gt; Proposal</code> 구간이다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>즉,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>리드 유입 부족보다</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>요구 정의와 가치 제안 품질이</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>핵심 문제일 가능성이 높다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 3.3 계산식과 해석 규칙</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Conversion(i) = Out(i-&gt;i+1) / In(i)</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>DropOff(i) = 1 - Conversion(i)</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Pipeline Velocity = (Deals * WinRate * ACV) / CycleTime</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>해석 규칙은 단순하다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 전환율 단독 해석 금지.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 체류 시간과 함께 봐야 한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 채널/산업/상품 세그먼트로 분해해야 한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 캠페인 할인과 계절성은 별도 변수로 분리해야 한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 3.4 사례</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SaaS B2B</code>:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Proposal -&gt; Negotiation</code> 전환은 높아도</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>법무 체류가 길면</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>분기 인식 매출이 하락한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>보험 영업</code>:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>상담량은 증가했는데</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>청약 단계 이탈이 늘면</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>초기 자격 심사 품질 문제가 의심된다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>자동차 딜러</code>:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>시승 전환은 높고</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>최종 계약 전환이 낮다면</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>금융 심사와 인도 일정이 병목일 수 있다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## §4. 예측 — Commit vs Forecast</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&gt; <strong>설계 문제</strong>: 이번 분기 매출을 어떻게 예측할 것인가? Commit과 Forecast를 왜 분리해야 하는가?</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 4.1 Forecast와 Commit의 목적 분리</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Forecast</code>는 확률 분포를 다루는 숫자다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>경영 의사결정의 범위를 제시한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Commit</code>은 조직이 책임지는 숫자다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>보수적 근거와 승인 절차를 요구한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>두 숫자를 하나로 합치면</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>조직은 항상 낙관 혹은 과보수로 흔들린다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 4.2 deterministic vs probabilistic</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Commit</code>은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>법무 승인,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>구매 승인,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>서명 이벤트처럼</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>상대적으로 결정적인 조건에 의존한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Forecast</code>는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>히스토리,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>스테이지,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>딜 규모,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>시장 변수,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>담당자 편향이 섞인</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>확률 모델이다.[^3][^6]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 4.3 운영 가이드</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- <code>Negotiation</code> 상태라도 서명 전은 확률값으로 둔다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- Commit 승격에는 "반드시 충족" 조건을 둔다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- <code>Best Case</code>, <code>Most Likely</code>, <code>Commit</code>을 병행 보고한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 분기 말 가격 정책 변경은 시나리오 변수로 분리한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 4.4 사례</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SaaS B2B 10억 딜</code>:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>기술 검증은 통과했지만</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>법무 redline 미해결이면</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>forecast 상위구간이지 commit은 아니다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>자동차 딜러</code>:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>출고 슬롯이 고정되지 않은 계약 의향은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>forecast에는 반영 가능하지만</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>commit 대수에는 보수적으로 반영한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## §5. CRM — 파이프라인의 Runtime</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&gt; <strong>설계 문제</strong>: 상태 추적을 사람 기억에 의존하면 스케일하지 않는다. 어떤 런타임과 저장 구조가 필요한가?</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 5.1 CRM의 본질적 역할</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CRM은 주소록이 아니다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>상태 기계를 실행하고,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>이벤트를 저장하며,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>변경 이력을 추적하고,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>예측을 집계하는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>런타임/영속성 계층이다.[^2][^7]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 5.2 최소 기능 세트</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 상태 필드와 전환 히스토리.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 활동 로그(콜, 메일, 미팅, 문서).</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 소유자/승인 체계.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- forecast category와 확률 관리.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 감사 로그와 접근 권한 통제.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 5.3 데이터 품질 통제</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 필수 필드 누락 시 단계 이동 차단.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- <code>Lost Reason</code> 표준 코드 강제.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- <code>Next Step Date</code> 없는 딜 자동 경고.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 장기 무활동 딜 자동 분류.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 수동 확률 변경 시 근거 메모 필수.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 5.4 초기 조직에서 자주 생기는 오해</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>"아직 팀이 작아서 CRM이 이르다"는 판단은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>보통 반대로 작동한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>팀이 작을 때 표준을 만들지 않으면</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>팀이 커진 뒤에는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>더 높은 마이그레이션 비용을 낸다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 5.5 도구 문서와 운영 연계</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Salesforce의 Opportunity/Forecast 모델과</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>HubSpot의 Deal Pipeline/Forecast 도구는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>기능은 달라도</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>상태 전이 런타임이라는 점에서 동일하다.[^2][^7]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## 조직 내 위치 — 세일즈의 상위/하위/수평 의존성</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&gt; <strong>설계 문제</strong>: 세일즈 시스템은 조직 전체 가치사슬에서 어디에 위치하는가?</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>세일즈의 상위 입력은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>마케팅의 수요 생성,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>제품의 가치 전달력,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>가격 정책의 신호다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>세일즈의 하위 출력은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>계약 체결 자체가 아니라</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>온보딩,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>활성화,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>유지,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>확장으로 이어지는 고객 생애 흐름이다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><pre class="mermaid"><code>flowchart LR
+    M[Marketing: Demand Generation] --&gt; S[SDR: Qualification]
+    S --&gt; A[AE: Opportunity Management]
+    A --&gt; C[CS: Onboarding &amp; Adoption]
+    C --&gt; AM[AM: Renewal &amp; Expansion]
+    classDef dark fill:#1a1a2e,stroke:#e94560,stroke-width:2px,color:#ffffff;
+    class M,S,A,C,AM dark;</code></pre></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>세일즈와 마케팅이 자주 혼동되지만,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>객체가 다르다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>마케팅의 기본 객체는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>세그먼트/캠페인이고,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>세일즈의 기본 객체는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>개별 딜의 상태 전이다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## 성숙도 단계 — 운영 모델의 진화</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&gt; <strong>설계 문제</strong>: 조직이 성장할 때 파이프라인 통제는 어떻게 고도화되어야 하는가?</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### Startup</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 대표 또는 소수 인원이 직접 영업.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 비공식 메모/메신저 의존.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 장점: 속도.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 한계: 재현 불가, 인수인계 불가.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### Growth</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 세일즈팀 확장과 역할 분리 시작.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- CRM 필드 표준화와 forecast cadence 도입.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 장점: 가시성 향상.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 한계: 데이터 입력 피로와 누락.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### Enterprise</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- SDR/AE/AM/RevOps 분업 고도화.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 리전/산업/제품별 다중 파이프라인 운영.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 장점: 규모 대응.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 한계: 복잡도와 현장 저항.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>성숙도의 기준은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>툴의 개수가 아니라</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>전환 규칙의 일관성과</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>회고 피드백 속도다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## 변경 이력 — 세 번의 전환점</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&gt; <strong>설계 문제</strong>: 영업 운영은 어떤 기술/환경 변화로 재설계되어 왔는가?</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 전환점 1: 관계 기반 영업</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>초기 영업은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>개인 네트워크,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>대면 접촉,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>비정형 정보에 의존했다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>강점은 신뢰 형성 속도,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>약점은 확장성과 감사 가능성이다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 전환점 2: CRM/데이터 기반 영업</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CRM 보급 이후,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>영업 활동은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>객체,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>필드,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>로그,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>리포트 단위로 표준화됐다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>의사결정은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>"누가 감이 좋은가"에서</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>"어떤 시스템이 반복 가능한가"로 이동했다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 전환점 3: AI/자동화 영업</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>intent data,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>예측 스코어링,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>다음 행동 추천 자동화가</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>리드 우선순위를 실시간 재배열한다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>동시에</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>편향,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>설명 가능성,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>규제 적합성 검증이</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>핵심 통제 과제로 올라왔다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## 운영 모델 비교 — B2B, B2C, PLG</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&gt; <strong>설계 문제</strong>: 비즈니스 모델이 다르면 상태 전이 규칙은 어떻게 달라지는가?</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>모델</td>
+<td>주요 객체</td>
+<td>평균 사이클</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td><strong>B2B Enterprise</strong></td>
+<td>계정 + 다중 이해관계자 딜</td>
+<td>길다(수개월~1년+)</td>
+</tr>
+<tr>
+<td><strong>B2C Volume</strong></td>
+<td>개인 고객 대량 딜</td>
+<td>짧다(당일~수주)</td>
+</tr>
+<tr>
+<td><strong>PLG</strong></td>
+<td>제품 사용 이벤트 기반 계정</td>
+<td>짧거나 비동기</td>
+</tr>
+<tr>
+<td>B2B는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>상태 수보다</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>전환 조건의 깊이가 문제다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>B2C는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>조건보다</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>처리량과 규제 통제가 핵심이다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PLG는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>미팅 이벤트보다</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>제품 행동 이벤트가</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>전환 트리거가 된다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## 이 비유의 한계 (Limits of the Analogy)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&gt; <strong>설계 문제</strong>: State Machine 비유는 어디까지 유효하며, 무엇을 설명하지 못하는가?</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>비유가 유효한 지점</td>
+<td>비유가 깨지는 지점</td>
+<td>한계의 이유</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td>상태와 전환을 정의하면 파이프라인 품질이 높아진다.</td>
+<td>실제 구매는 조직 정치와 개인 신뢰에 크게 좌우된다.</td>
+<td>인간 의사결정은 완전한 상태 모델로 환원되지 않는다.</td>
+</tr>
+<tr>
+<td>전환율 분석은 병목 구간을 빠르게 찾는다.</td>
+<td>숫자 개선이 고객 가치 개선을 보장하지는 않는다.</td>
+<td>KPI는 대리 지표이며, 질적 요인을 누락한다.</td>
+</tr>
+<tr>
+<td>Commit/Forecast 분리는 책임과 확률을 구분한다.</td>
+<td>분기말 가격 정책 변화는 모델 가정을 크게 흔든다.</td>
+<td>정책 충격은 과거 분포를 무력화한다.</td>
+</tr>
+<tr>
+<td>CRM 로그는 운영 재현성을 높인다.</td>
+<td>입력 품질이 낮으면 고급 리포트도 왜곡된다.</td>
+<td>"기록됨"은 "정확함"이 아니다.</td>
+</tr>
+<tr>
+<td>Input Validation은 자원 낭비를 줄인다.</td>
+<td>과도한 필터링은 미래 고가치 고객을 배제한다.</td>
+<td>단기 효율 최적화가 장기 기회를 손상할 수 있다.</td>
+</tr>
+<tr>
+<td>자동화 추천은 우선순위 결정을 가속한다.</td>
+<td>편향 데이터는 특정 고객군 누락을 강화한다.</td>
+<td>모델은 과거 구조를 증폭한다.</td>
+</tr>
+<tr>
+<td>핵심은 단순하다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>State Machine은</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>운영 통제에는 강력하지만,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>시장과 사람의 비선형성을</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>완전히 대체하지 않는다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## 실무 통제 항목 — 분기 운영 점검 리스트</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&gt; <strong>설계 문제</strong>: 모델을 문서로만 두지 않고 운영 제어로 내리려면 무엇을 점검해야 하는가?</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1. 스테이지별 exit criteria가 문서화되어 있는가.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2. 필수 필드 누락 시 단계 이동이 실제로 차단되는가.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3. <code>Lost Reason</code> 코드가 80% 이상 기록되는가.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4. 14일 이상 무활동 딜이 자동 경고되는가.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5. Commit 승격 조건에 법무/구매 상태가 포함되는가.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6. 리드 소스별 전환율과 CAC가 함께 조회되는가.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7. 규제 고지 누락 시 영업 진행이 차단되는가.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## 출처 (Sources)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 법령</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 방문판매 등에 관한 법률. 국가법령정보센터. https://www.law.go.kr/법령/방문판매등에관한법률</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 전자상거래 등에서의 소비자보호에 관한 법률. 국가법령정보센터. https://www.law.go.kr/법령/전자상거래등에서의소비자보호에관한법률</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 공시</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 금융감독원 전자공시시스템(DART). 정기/수시 보고서 검색. https://dart.fss.or.kr</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 현대자동차 사업보고서(최근 연도). DART 공시 문서군.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 삼성화재해상보험 사업보고서(최근 연도). DART 공시 문서군.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### CRM 공식 문서</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- Salesforce Help. Opportunities, stages, forecast categories, pipeline reporting. https://help.salesforce.com</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- HubSpot Knowledge Base. Deal pipelines, deal stages, forecasting tool. https://knowledge.hubspot.com</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### 출처 제외 원칙</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>위키,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>개인 블로그,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>비공식 강의 자료는</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>근거 출처에서 제외했다.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## 각주</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[^1]: HubSpot Knowledge Base, deal pipeline/deal stage 설정 문서군. https://knowledge.hubspot.com</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[^2]: Salesforce Help, opportunity stage와 pipeline 관리 문서군. https://help.salesforce.com</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[^3]: Salesforce Help, forecast categories와 commit 운영 문서군. https://help.salesforce.com</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[^4]: 방문판매 등에 관한 법률, 청약철회/계약서 교부/금지행위 조항. https://www.law.go.kr/법령/방문판매등에관한법률</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[^5]: 전자상거래 등에서의 소비자보호에 관한 법률, 고지/철회/분쟁 처리 조항. https://www.law.go.kr/법령/전자상거래등에서의소비자보호에관한법률</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[^6]: DART 공시의 분기 실적과 전망치 간 편차는 확률 예측의 구조적 불확실성을 보여준다. 원자료: https://dart.fss.or.kr</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[^7]: HubSpot Knowledge Base, forecast 도구 및 deal probability 운영 문서군. https://knowledge.hubspot.com</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[^8]: DART 사업보고서의 판매 채널/매출 인식/리스크 공시는 파이프라인 설계 해석의 실증 근거를 제공한다. https://dart.fss.or.kr</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>## 관련 글 (See Also)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- <a href="../../marketing/system/marketing-funnel-as-demand-generation-system.md">마케팅 퍼널 — 수요 생성 시스템</a> <em>(예정)</em></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- <a href="../../sales/system/customer-success-as-retention-state-machine.md">고객 성공 — 계약 이후 상태 기계</a> <em>(예정)</em></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- <a href="../../finance/system/revenue-forecasting-as-control-system.md">재무 계획 — 매출 가이던스 제어</a> <em>(예정)</em></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!--
+system-analysis checklist
+- [x] title + one line summary
+- [x] disclaimer
+- [x] 5-7 terminology mappings (7)
+- [x] system brief
+- [x] §1~§5 with design problem blockquote
+- [x] metaphor strategy reflected by section
+- [x] 3 mermaid diagrams with dark style
+- [x] limits table 5+ rows (6)
+- [x] legal + DART + CRM official sources only
+- [x] footnotes
+- [x] related posts
+-->
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      CC BY-SA 4.0
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/yeongseon/world-through-software-engineering" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "content.code.copy", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../../../../javascripts/mermaid.js"></script>
+      
+    
+  </body>
+</html>
