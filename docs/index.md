@@ -21,7 +21,7 @@
 
 | 유형 | 글 | 핵심 메타포 | 상태 |
 |------|-----|-------------|------|
-| system | 헌법 | Root Architecture | 예정 |
+| system | [헌법](series/korea-systems/politics/system/constitution-as-root-architecture.md) | Root Architecture | draft |
 | system | 국회 | Legislative Pipeline | 예정 |
 | system | 선거 | Leadership Rotation | 예정 |
 | system | 행정부 | Execution Runtime | 예정 |

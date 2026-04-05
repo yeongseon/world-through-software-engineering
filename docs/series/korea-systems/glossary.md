@@ -13,6 +13,10 @@
 | 선거 | Leadership Rotation | 주기적인 리더십 교체 메커니즘 |
 | 국회의원 | Process Handler | 입법 권한을 행사하는 주요 행위자 |
 | 교섭단체 | Major Process Group | 국회에서 일정 수 이상의 의원을 가진 정당/단체 |
+| 헌법개정 | Major Version Upgrade | 호환성 파괴가 가능한 최상위 버전 변경. 국회 2/3 + 국민투표 필요 |
+| 계엄 | Emergency Override | 비상 상태에서 정상적인 접근 제어와 프로세스를 일시적으로 우회하는 메커니즘 |
+| 헌법소원 | User-Initiated Validation Request | 국민이 직접 헌법재판소에 위헌 여부 심판을 청구하는 경로 |
+| 헌법재판소 | Schema Validator | 법률이 헌법(스키마)에 부합하는지 최종 판단하는 전용 검증 시스템 |
 
 ## 법률 (Law)
 

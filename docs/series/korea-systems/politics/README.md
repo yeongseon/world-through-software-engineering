@@ -17,13 +17,13 @@
 ## 계획된 글
 
 ### 시스템 분석
-- [계획중] 헌법을 읽는 엔지니어 — Root Architecture 관점에서
+- [draft] [헌법 — 루트 아키텍처](system/constitution-as-root-architecture.md) — Root Architecture 관점에서 헌법의 구조 분석
 - [계획중] 국회 입법 프로세스 — Legislative Pipeline 상세 분석
 - [계획중] 대통령제 시스템 — Leadership Rotation과 권력 분산
 
 ### 케이스 분석
-- [계획중] 2024년 국정감사 — System Audit 실제 사례
-- [계획중] 선거 제도 개편 — System Migration 사례
+- [계획중] 2016년 탄핵 — Exception Flow 실제 사례
+- [계획중] 2024년 계엄 선포 — Emergency Override 사례
 
 [시리즈로 돌아가기 →](/docs/series/korea-systems/README.md)
 
