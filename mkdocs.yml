@@ -1,0 +1,95 @@
+site_name: 소프트웨어 엔지니어 관점에서 보는 세상
+site_description: 대한민국 시스템과 회사 직군을 소프트웨어 엔지니어링 관점에서 분석하는 프로젝트
+site_url: https://yeongseon.github.io/world-through-software-engineering/
+repo_url: https://github.com/yeongseon/world-through-software-engineering
+repo_name: yeongseon/world-through-software-engineering
+
+theme:
+  name: material
+  language: ko
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: 다크 모드로 전환
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: 라이트 모드로 전환
+
+plugins:
+  - search:
+      lang: ko
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - javascripts/mermaid.js
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yeongseon/world-through-software-engineering
+
+copyright: CC BY-SA 4.0
+
+nav:
+  - 홈: index.md
+  - 선언문: manifesto.md
+  - 방법론: methodology.md
+  - 공유 용어 사전: glossary/core.md
+  - 대한민국 시스템:
+      - 소개: series/korea-systems/README.md
+      - 용어 사전: series/korea-systems/glossary.md
+      - 정치:
+          - 소개: series/korea-systems/politics/README.md
+          - 헌법: series/korea-systems/politics/system/constitution-as-root-architecture.md
+      - 법률:
+          - 소개: series/korea-systems/law/README.md
+      - 경제:
+          - 소개: series/korea-systems/economy/README.md
+      - 사회:
+          - 소개: series/korea-systems/society/README.md
+  - 회사 직군:
+      - 소개: series/corporate-functions/README.md
+      - 용어 사전: series/corporate-functions/glossary.md
+      - PM: series/corporate-functions/pm/README.md
+      - 법무: series/corporate-functions/legal/README.md
+      - 재무: series/corporate-functions/finance/README.md
+      - HR: series/corporate-functions/hr/README.md
+      - 세일즈: series/corporate-functions/sales/README.md
+      - 마케팅: series/corporate-functions/marketing/README.md
+      - 운영: series/corporate-functions/operations/README.md
+      - 디자인: series/corporate-functions/design/README.md
+  - 시리즈 횡단 주제: topics/README.md
