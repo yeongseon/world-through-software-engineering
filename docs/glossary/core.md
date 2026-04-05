@@ -25,6 +25,7 @@
 | 헌법 전문 / 사업 미션 | README / Design Philosophy | 시스템의 설계 철학과 목적을 선언하는 문서. 코드를 직접 실행하지는 않지만 모든 설계 판단의 기준 |
 | 기본권 / 핵심 보장 사항 | Core API Contract | 시스템이 모든 사용자에게 보장하는 불가침의 인터페이스 |
 | 삼권분립 / 역할 분리 | Separation of Concerns | 책임을 분리하여 결합도를 낮추고 독립적 동작을 보장하는 설계 원칙 |
+| 삼권분립 / 권력 격리 | Fault Isolation | 한 컴포넌트의 장애가 다른 컴포넌트로 전파되지 않도록 격리하는 설계. 권력분립은 Separation of Concerns이자 Fault Isolation이다 |
 
 ## 흐름 메타포 (Flow)
 
